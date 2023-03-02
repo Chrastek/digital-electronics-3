@@ -21,6 +21,7 @@
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.NUMERIC_STD.ALL;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
@@ -74,18 +75,22 @@ begin
 
 --------------------------------------------------------------------
 -- Experiments on your own: LED(7:4) indicators
-
 -- Turn LED(4) on if input value is equal to 0, ie "0000"
--- LED(4) <= WRITE YOUR CODE HERE
+ LED(4) <= '1' when (SW = "0000") else '0';
 
 -- Turn LED(5) on if input value is greater than "1001", ie 10, 11, 12, ...
--- LED(5) <= WRITE YOUR CODE HERE
+ LED(5) <= '1' when (SW > "1001") else '0';
 
 -- Turn LED(6) on if input value is odd, ie 1, 3, 5, ...
--- LED(6) <= WRITE YOUR CODE HERE
+ LED(6) <= '1' when ((TO_INTEGER(unsigned(SW)) mod 2) = 1) else '0';
 
+with SW select
 -- Turn LED(7) on if input value is a power of two, ie 1, 2, 4, or 8
--- LED(7) <= WRITE YOUR CODE HERE
+ LED(7) <= '1' when "0001",
+           '1' when "0010",
+           '1' when "0100",
+           '1' when "1000",
+           '0' when others;
 
 end architecture behavioral;
 
