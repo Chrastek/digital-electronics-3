@@ -82,7 +82,7 @@ begin
  LED(5) <= '1' when (SW > "1001") else '0';
 
 -- Turn LED(6) on if input value is odd, ie 1, 3, 5, ...
- LED(6) <= '1' when ((TO_INTEGER(unsigned(SW)) mod 2) = 1) else '0';
+ LED(6) <= '1' when (SW(0) = '1') else '0';
 
 with SW select
 -- Turn LED(7) on if input value is a power of two, ie 1, 2, 4, or 8
