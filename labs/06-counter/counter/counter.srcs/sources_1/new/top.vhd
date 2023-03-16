@@ -54,8 +54,10 @@ architecture behavioral of top is
   -- 4-bit counter @ 250 ms
   signal sig_en_250ms : std_logic;                    --! Clock enable signal for Counter0
   signal sig_cnt_4bit : std_logic_vector(3 downto 0); --! Counter0
-
-  constant c_CNT_WIDTH : natural := 4;
+  
+  -- 12-bit counter @ 10 ms
+  signal sig_en_10ms : std_logic;                    --! Clock enable signal for Counter1
+  signal sig_cnt_12bit : std_logic_vector(3 downto 0); --! Counter1
 
 begin
 
@@ -71,13 +73,26 @@ begin
           rst => BTNC,
           ce  => sig_en_250ms
       );
+      
+  --------------------------------------------------------
+  -- Instance (copy) of clock_enable entity
+  --------------------------------------------------------
+  clk_en1 : entity work.clock_enable
+      generic map(
+          g_MAX => 1000000
+      )
+      port map(
+          clk => CLK100MHZ,
+          rst => BTNC,
+          ce  => sig_en_10ms
+      );
 
   --------------------------------------------------------
   -- Instance (copy) of cnt_up_down entity
   --------------------------------------------------------
   bin_cnt0 : entity work.cnt_up_down
      generic map(
-          g_CNT_WIDTH => c_CNT_WIDTH
+          g_CNT_WIDTH => 4
       )
       port map(
           clk => CLK100MHZ,
@@ -85,6 +100,21 @@ begin
           cnt_up => SW,
           en => sig_en_250ms,
           cnt => sig_cnt_4bit
+      );
+      
+  --------------------------------------------------------
+  -- Instance (copy) of cnt_up_down entity
+  --------------------------------------------------------
+  bin_cnt1 : entity work.cnt_up_down
+     generic map(
+          g_CNT_WIDTH => 12
+      )
+      port map(
+          clk => CLK100MHZ,
+          rst => BTNC,
+          cnt_up => SW,
+          en => sig_en_10ms,
+          cnt => sig_cnt_12bit
       );
 
   --------------------------------------------------------
