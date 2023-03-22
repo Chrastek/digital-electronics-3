@@ -42,7 +42,8 @@ entity top is
            CF : out STD_LOGIC;
            CG : out STD_LOGIC;
            AN : out STD_LOGIC_VECTOR (7 downto 0);
-           BTNC : in STD_LOGIC);
+           BTNC : in STD_LOGIC;
+           LED : out STD_LOGIC_VECTOR (10 downto 0));
 end top;
 
 ----------------------------------------------------------
@@ -138,5 +139,5 @@ begin
   --------------------------------------------------------
   -- Connect one common anode to 3.3V
   AN <= b"1111_1110";
-
+  LED <= sig_cnt_12bit;
 end architecture behavioral;
